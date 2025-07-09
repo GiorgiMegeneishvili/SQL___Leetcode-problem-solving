@@ -175,3 +175,49 @@ from Activities a
 SELECT *
 FROM Users
 WHERE mail REGEXP '^[a-zA-Z][a-zA-Z0-9_.-]*@leetcode\\.com$';
+
+
+
+--------         175. Combine Two Tables       -----------------------------------
+
+
+select p.firstname, p.lastname, ad.city, ad.state
+from address ad right join person p on ad.personid = p.personid 
+
+
+--------         176. Second Highest Salary      -----------------------------------
+
+
+select 
+    max(salary) as SecondHighestSalary 
+from Employee 
+    where salary < (select max(salary) from Employee);
+
+
+
+
+
+--------         177. Nth Highest Salary    -----------------------------------
+
+
+
+CREATE FUNCTION getNthHighestSalary(@N INT)
+RETURNS INT
+AS
+BEGIN
+    DECLARE @result INT;
+
+    SELECT @result = Salary
+    FROM (
+        SELECT DISTINCT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) AS rnk
+        FROM Employee
+    ) AS RankedSalaries
+    WHERE rnk = @N;
+
+    RETURN @result;
+END
+
+
+
+--------         177. Nth Highest Salary    -----------------------------------
+

@@ -313,7 +313,18 @@ JOIN Department d
 
 
 
---------        184. Department Highest Salary     -----------------------------------
+--------        577. Employee Bonus    -----------------------------------
 
 
+select 
+    Employe.name,
+    Employe.bonus
+from 
+    (
+        select 
+        e.name as name,
+        b.bonus as bonus
+    from Employee e left join Bonus b
+    on e.empId = b.empId) as Employe
+    where Employe.bonus is null or  Employe.bonus < 1000 
 

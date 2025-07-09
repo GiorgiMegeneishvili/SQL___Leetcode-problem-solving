@@ -201,6 +201,7 @@ from Employee
 
 
 
+
 CREATE FUNCTION getNthHighestSalary(@N INT)
 RETURNS INT
 AS
@@ -219,5 +220,100 @@ END
 
 
 
---------         177. Nth Highest Salary    -----------------------------------
+--------         178. Rank Scores    -----------------------------------
+
+
+select 
+    score,
+    DENSE_RANK() OVER (ORDER BY score DESC) AS rank
+from Scores;
+
+
+
+
+--------         180. Consecutive Numbers    -----------------------------------
+
+
+
+SELECT 
+    DISTINCT l1.num AS ConsecutiveNums
+FROM Logs l1
+  JOIN Logs l2 ON l1.id = l2.id - 1
+  JOIN Logs l3 ON l1.id = l3.id - 2
+WHERE l1.num = l2.num AND l2.num = l3.num;
+
+----OR
+SELECT 
+    DISTINCT l1.num AS ConsecutiveNums
+FROM Logs l1, Logs l2, Logs l3
+WHERE l1.num = l2.num AND l2.num = l3.num
+    and l1.id = l2.id + 1
+    and l1.id = l3.id + 2
+
+
+--------         181. Employees Earning More Than Their Managers    -----------------------------------
+
+select 
+    e1.name as Employee 
+from Employee e, Employee e1 
+where e.salary  < e1.salary 
+    and e.id = e1.managerId
+
+
+--------         182. Duplicate Emails    -----------------------------------
+
+  
+select 
+    pe.email
+from (
+  select 
+    email 
+  from Person 
+    group by email 
+    having count(*) > 1 
+  ) as pe
+
+
+
+
+--------         183. Customers Who Never Order  -----------------------------------
+
+
+  
+select 
+    name as Customers
+from Customers
+where 
+  id not in (select distinct customerId from Orders);
+
+
+
+--------        184. Department Highest Salary     -----------------------------------
+
+
+
+WITH DepartmentMax AS (
+    SELECT
+        departmentId,
+        MAX(salary) AS MaxSalary
+    FROM Employee
+    GROUP BY departmentId
+)
+SELECT
+    d.name AS Department,
+    e.name AS Employee,
+    e.salary AS Salary
+FROM Employee e
+JOIN DepartmentMax dm
+    ON e.departmentId = dm.departmentId
+    AND e.salary = dm.MaxSalary
+JOIN Department d
+    ON e.departmentId = d.id;
+
+
+
+
+--------        184. Department Highest Salary     -----------------------------------
+
+
 

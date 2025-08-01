@@ -328,3 +328,15 @@ from
     on e.empId = b.empId) as Employe
     where Employe.bonus is null or  Employe.bonus < 1000 
 
+
+
+--------     1873. Calculate Special Bonus  -----------------------------------
+
+SELECT 
+    employee_id,
+    CASE
+        WHEN LEFT(name, 1) != 'M' AND employee_id % 2 != 0 THEN salary
+        ELSE 0
+    END AS bonus
+FROM Employees
+order by Employees.employee_id;

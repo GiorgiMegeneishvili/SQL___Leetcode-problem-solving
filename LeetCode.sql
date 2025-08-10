@@ -340,3 +340,26 @@ SELECT
     END AS bonus
 FROM Employees
 order by Employees.employee_id;
+
+
+
+--------     1075. Project Employees I  -----------------------------------
+
+SELECT  
+    p.project_id,
+    CAST(AVG(CAST(e.experience_years AS DECIMAL(10,2))) AS DECIMAL(10,2)) AS average_years
+FROM Project AS p
+JOIN Employee AS e
+    ON p.employee_id = e.employee_id
+GROUP BY p.project_id;
+
+
+
+--------     596. Classes With at Least 5 Students  -----------------------------------
+
+SELECT 
+    class
+FROM Courses
+GROUP BY class
+having COUNT(*) > 4;
+
